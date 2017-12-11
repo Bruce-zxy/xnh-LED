@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<!------分------割------线------>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="Author" content="Bruce Zhu">
+	<meta http-equiv="pragma" content="no-cache">
+    <title>LED大屏幕</title>
+    <style>
+        html,body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        body {
+            background-color: rgba(0, 0, 0, .95);
+            color: #fff;
+            font-size: 0;
+        }
+        #top {
+            display: block;
+            width: 100%;
+            height: 50%;
+        }
+        #word {
+            width: 50%;
+            height: 100%;
+            float: left;
+            font-size: 22px;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+            padding-left: 50px;
+            box-sizing: border-box;
+        }
+        #word p span {
+            color: #ffc72b;
+        }
+        #QR {
+            width: 50%;
+            height: 100%;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            float: left;
+            font-size: 22px;
+        }
+        #QR img {
+            width: 200px;
+            height: 200px;
+        }
+        #ageDivide {
+            width: 50%;
+            height: 50%;
+            display: inline-block;
+        }
+        #provinceDivide {
+            width: 50%;
+            height: 50%;
+            display: inline-block;
+        }
+    </style>
+</head>
+<!------分------割------线------>
+
+<body>
+
+    <div id="top">
+        <div id="word">
+            <p>当前入园人数：<span class="curr_person">113</span></p>
+        	<p>历史总入园数：<span class="sum_person">281948</span></p>
+            <p>最大承载人数：<span class="max_person">8000</span></p>
+            <p>景区舒适成都：<span class="comfort">较舒适</span></p>
+        </div>
+        <div id="QR">
+            <p>微信购票入口：</p>
+            <img src="./img/QR.jpg" alt="微信购票入口">
+        </div>
+    </div>
+    <div id="ageDivide"></div>
+    <div id="provinceDivide"></div>
+
+
+</body>
+
+<script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="./js/echarts.min.js"></script>
+<script type="text/javascript">
+
+    function age() {
+        var config = {
+            yAxisConfig: [{
+                name: '数量/人',
+                interval: 10000,
+                axisLabel: {
+                    formatter: '{value}'
+                },
+                splitLine: {
+                    show: false
+                }
+            }],
+            xAxisData: ['<9岁', '10-19岁', '20-29岁', '30-39岁', '40-49岁', '50-59岁', '60-69岁', '70-79岁', '>80岁'],
+            seriesData: [{
+                name: '游客总数',
+                type: 'bar',
+                data: [14915, 23712, 36202, 90562, 76352, 21935, 11926, 5949, 395],
+                label: {
+                    normal: {
+                        show: true,
+                        formatter: function (data) {
+                            return ((data.value / 281948) * 100).toFixed(2) + '%';
+                        },
+                        color: '#fff',
+                        position: 'outside'
+                    }
+                }
+            }]
+        }
+
+        config.yAxisConfig.forEach(function (item) {
+            item.type = 'value';
+            item.scale = true;
+            item.boundaryGap = [0, 0];
+            item.nameTextStyle = {
+                // fontSize: 56,
+                color: '#87baf8'
+            };
+            // item.nameGap = 40;
+            item.axisLabel.textStyle = {
+                // fontSize: 56,
+                color: '#87baf8'
+            }
+        });
+
+        config.seriesData.forEach(function (item) {
+            if (item.type === 'bar') {
+                item.itemStyle = {
+                    normal: {
+                        barBorderRadius: 4,
+                        color: 'rgba(30, 144, 255, 0.9)',
+                        opacity: '0.8'
+                    },
+                    emphasis: {
+                        opacity: '1'
+                    }
+                };
+                item.animationEasing = 'elasticOut';
+                item.animationDelay = function(idx) {
+                    return idx * 10
+                };
+                item.animationDelayUpdate = function(idx) {
+                    return idx * 10
+                };
+            }
+        });
+
+        var option = {
+            animation: true,
+            animationDuration: 1000,
+            animationEasing: 'cubicInOut',
+            animationDurationUpdate: 1000,
+            animationEasingUpdate: 'cubicInOut',
+            backgroundColor: 'transparent',
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#87baf8'
+                    }
+                },
+                textStyle: {
+                    // fontSize: 64,
+                }
+            },
+            grid: {
+                left: 60,
+                // top: 100,
+                // right: 40,
+                // bottom: 120
+            },
+            xAxis: [{
+                type: 'category',
+                boundaryGap: true,
+                data: config.xAxisData,
+                nameTextStyle: {
+                    // fontSize: 56,
+                    color: '#87baf8'
+                },
+                axisPointer: {
+                    type: 'shadow'
+                },
+                axisLabel: {
+                    textStyle: {
+                        // fontSize: 46,
+                        color: '#87baf8'
+                    },
+                    rotate: 45
+                }
+            }],
+            yAxis: config.yAxisConfig,
+            series: config.seriesData
+        };
+        return option;
+    }
+    function province() {
+        var scale = 1;
+        var echartData = [{
+            "name": "江西",
+            "value": "178084"
+        }, {
+            "name": "湖南",
+            "value": "34857"
+        }, {
+            "name": "上海",
+            "value": "13900"
+        }, {
+            "name": "福建",
+            "value": "7393"
+        }, {
+            "name": "江苏",
+            "value": "6541"
+        }, {
+            "name": "湖北",
+            "value": "5678"
+        }]
+        var rich = {
+            // 数值
+            yellow: {
+                color: "#ffc72b",
+                fontSize: 20 * scale,
+                padding: [5, 4],
+                align: 'center'
+            },
+            total: {
+                color: "#ffc72b",
+                fontSize: 40 * scale,
+                align: 'center'
+            },
+            // 省份
+            white: {
+                color: "#fff",
+                align: 'center',
+                fontSize: 14 * scale,
+                padding: [21, 0]
+            },
+            // 比例
+            blue: {
+                color: '#49dff0',
+                fontSize: 22 * scale,
+                align: 'center'
+            },
+            hr: {
+                borderColor: '#0b5263',
+                width: '100%',
+                borderWidth: 1,
+                height: 0,
+            }
+        }
+        var option = {
+            series: [{
+                name: '客源地统计',
+                type: 'pie',
+                radius: ['20%', '40%'],
+                hoverAnimation: false,
+                color: ['#c487ee', '#deb140', '#49dff0', '#034079', '#6f81da', '#00ffb4'],
+                label: {
+                    normal: {
+                        formatter: function(params, ticket, callback) {
+                            var total = 0;
+                            var percent = 0;
+                            echartData.forEach(function(value, index, array) {
+                                total += value.value*1;
+                            });
+                            percent = ((params.value / total) * 100).toFixed(1);
+                            return '{yellow|' + params.name + '}  {blue|'+ params.percent +'%}\n\n';
+                        },
+                        rich: rich
+                    },
+                },
+                labelLine: {
+                    normal: {
+                        length: 35 * scale,
+                        length2: 0,
+                        lineStyle: {
+                            color: '#0b5263'
+                        }
+                    }
+                },
+                data: echartData
+            }]
+        };
+        return option;
+    }
+
+    $(function () {
+        // 基于准备好的dom，初始化echarts实例
+        var ageDivide = echarts.init(document.getElementById('ageDivide'));
+        var provinceDivide = echarts.init(document.getElementById('provinceDivide'));
+        // 使用刚指定的配置项和数据显示图表。
+        ageDivide.setOption(age());
+        provinceDivide.setOption(province());
+    })
+
+</script>
+<!------分------割------线------>
+</html>

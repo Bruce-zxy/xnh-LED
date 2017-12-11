@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<!------分------割------线------>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="Author" content="Bruce Zhu">
+	<meta http-equiv="pragma" content="no-cache">
+    <title>LED大屏幕</title>
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        body {
+            background-image: url('./img/LED9.png');
+            background-size: cover;
+            background-position: 60% 50%;
+            background-repeat: no-repeat;
+            color: yellow;
+            display: inline-block;
+        }
+        #shipin {
+            width: 100%;
+        }
+        #shipin iframe {
+            width: 50%;
+            float: left;
+            border: none;
+        }
+        #biaoyan {
+            float: left;
+            display: -webkit-inline-flex; /* Safari */ 
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 50%;
+            width: 40%;
+        }
+        #biaoyan span {
+            display: inline-block;
+            width: 100%;
+            float: left;
+        }
+        #biaoyan span p {
+            height: 58px;
+            line-height: 58px;
+            font-size: 32px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        #info {
+            float: left;
+            display: -webkit-inline-flex; /* Safari */ 
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 42px;
+            text-align: center;
+            width: 60%;
+            height: 50%;
+            padding: 0 50px;
+            box-sizing: border-box;
+        }
+        #slogan {
+            font-size: 64px;
+            overflow: hidden;
+            box-sizing: border-box;
+            width: 100%;
+            height: 20%;
+            margin: 0;
+            text-align: center;
+            color: yellow;
+            outline: none;
+        }
+    </style>
+</head>
+<!------分------割------线------>
+
+<body>
+
+    <div id="shipin">
+        <iframe src="http://172.16.24.236"></iframe>
+        <iframe src="http://172.16.24.236"></iframe>
+    </div>
+    <div id="biaoyan">
+        <span>
+            <p contenteditable="true">龙凤苑表演 - XXX表演</p>
+            <p contenteditable="true">表演时间：09:20 - 10:20</p>
+        </span>
+        <span>
+            <p contenteditable="true">名人岛表演 - XXX表演</p>
+            <p contenteditable="true">表演时间：14:00 - 14:40</p>
+        </span>
+        <span>
+            <p contenteditable="true">名人岛表演 - XXX表演</p>
+            <p contenteditable="true">表演时间：14:00 - 14:40</p>
+        </span>
+    </div>
+    <div id="info">
+        <p id="tousu">投诉电话：0790-88888888</p>
+        <p id="slogan" contenteditable="true">文明旅游，从我做起</p>
+    </div>
+    
+</body>
+
+<script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+
+    localStorage.getItem('#slogan') ? $('#slogan').html(localStorage.getItem('#slogan')) : null;
+    function fontAdapt(name) {
+        var ele = $(name);
+        var reg = /\d+/ig;
+        var tempHTML = ele.html();
+        var checkEleChange = function () {
+            ele.html() !== tempHTML ? changeEle() : null;
+            tempHTML = ele.html();
+            requestAnimationFrame(checkEleChange);
+        }
+        var changeEle = function () {
+            var eleSize = ele.css("font-size").match(reg)[0];
+            var eleLen = ele.html().length;
+            var eleWidth = ele.width();
+            var eleHeight = ele.height();
+            var eleSizeWidth = eleSize * eleLen;
+            ele.css("font-size", eleWidth/(eleLen + 1));                
+            eleHeight < eleWidth/(eleLen + 1) ? ele.css("font-size", eleHeight) : null;    
+            ele.css("line-height", eleHeight+"px");
+            localStorage.setItem(name, ele.html());
+        }
+        changeEle();
+        checkEleChange();
+        window.addEventListener('resize', changeEle);
+    }
+    fontAdapt('#slogan');
+    $('#shipin iframe').height($('#shipin').width()*3/8);
+    var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    $('#shipin iframe').css('max-height', h/2);
+    $('#biaoyan').css('height', 'calc(100% - ' + $('#shipin iframe').height() + 'px)');
+    $('#info').css('height', 'calc(100% - ' + $('#shipin iframe').height() + 'px)');
+
+</script>
+<!------分------割------线------>
+</html>
