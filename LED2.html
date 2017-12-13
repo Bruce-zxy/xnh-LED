@@ -5,6 +5,8 @@
 
     <meta charset="UTF-8">
     <meta name="Author" content="Bruce Zhu">
+    <meta name=”renderer” content=”webkit”>
+    <meta http-equiv=”X-UA-Compatible” content=”IE=Edge,chrome=1″ >
 	<meta http-equiv="pragma" content="no-cache">
     <title>LED大屏幕</title>
     <style>
@@ -15,55 +17,55 @@
             padding: 0;
             overflow: hidden;
         }
-        body {
-            background-color: rgba(0, 0, 0, .95);
+        #border {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -208px 0 0 -336px;
+            width: 672px;
+            height: 416px;
+            background-color: #061228;
             color: #fff;
             font-size: 0;
         }
-        #top {
-            display: block;
-            width: 100%;
-            height: 50%;
-        }
-        #word {
-            width: 50%;
-            height: 100%;
-            float: left;
-            font-size: 22px;
-            display: -webkit-flex;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: start;
-            padding-left: 50px;
+        .title {
+            height: 75px;
+            line-height: 75px;
+            font-size: 14px;
             box-sizing: border-box;
+            padding: 0 20px;
+            margin: 0;
         }
-        #word p span {
-            color: #ffc72b;
+        .title .name {
+            color: #3397be;
         }
-        #QR {
-            width: 50%;
-            height: 100%;
-            display: -webkit-flex;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            float: left;
-            font-size: 22px;
+        .title .content {
+            color: #fff;
+            margin-right: 15px;
         }
-        #QR img {
-            width: 200px;
-            height: 200px;
+        .buy_tickets {
+            width: 100%;
+            height: 241px;
+            background-image: url('./img/LED3.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
         }
-        #ageDivide {
-            width: 50%;
-            height: 50%;
-            display: inline-block;
+        .buy_tickets img {
+            height: 210px;
+            margin: 20px 0 0 25px;
+        }
+        .data {
+            width: 100%;
+            height: 100px;
         }
         #provinceDivide {
-            width: 50%;
-            height: 50%;
+            width: 35%;
+            height: 100%;
+            display: inline-block;
+        }
+        #ageDivide {
+            width: 65%;
+            height: 100%;
             display: inline-block;
         }
     </style>
@@ -72,21 +74,28 @@
 
 <body>
 
-    <div id="top">
-        <div id="word">
-            <p>当前入园人数：<span class="curr_person">113</span></p>
-        	<p>历史总入园数：<span class="sum_person">281948</span></p>
-            <p>最大承载人数：<span class="max_person">8000</span></p>
-            <p>景区舒适成都：<span class="comfort">较舒适</span></p>
-        </div>
-        <div id="QR">
-            <p>微信购票入口：</p>
-            <img src="./img/QR.jpg" alt="微信购票入口">
-        </div>
-    </div>
-    <div id="ageDivide"></div>
-    <div id="provinceDivide"></div>
+    <div id="border">
 
+        <p class="title">
+            <span class="name">当前入园人数：</span>
+            <span class="content">339</span>
+            <span class="name">历史总入园数：</span>
+            <span class="content">281948</span>
+            <span class="name">最大承载人数：</span>
+            <span class="content">8000</span>
+            <span class="name">景区舒适程度：</span>
+            <span class="content">较舒适</span>
+        </p>
+        <div class="buy_tickets">
+            <img src="./img/LED2.png" alt="二维码">
+        </div>
+        <div class="data">
+            <div id="provinceDivide"></div>
+            <div id="ageDivide"></div>
+            
+        </div>
+
+    </div>
 
 </body>
 
@@ -98,7 +107,7 @@
         var config = {
             yAxisConfig: [{
                 name: '数量/人',
-                interval: 10000,
+                interval: 20000,
                 axisLabel: {
                     formatter: '{value}'
                 },
@@ -106,7 +115,7 @@
                     show: false
                 }
             }],
-            xAxisData: ['<9岁', '10-19岁', '20-29岁', '30-39岁', '40-49岁', '50-59岁', '60-69岁', '70-79岁', '>80岁'],
+            xAxisData: ['<9', '10~19', '20~29', '30~39', '40~49', '50~59', '60~69', '70~79', '>80'],
             seriesData: [{
                 name: '游客总数',
                 type: 'bar',
@@ -129,12 +138,12 @@
             item.scale = true;
             item.boundaryGap = [0, 0];
             item.nameTextStyle = {
-                // fontSize: 56,
+                fontSize: 12,
                 color: '#87baf8'
             };
-            // item.nameGap = 40;
+            item.nameGap = 0;
             item.axisLabel.textStyle = {
-                // fontSize: 56,
+                fontSize: 12,
                 color: '#87baf8'
             }
         });
@@ -177,21 +186,23 @@
                     }
                 },
                 textStyle: {
-                    // fontSize: 64,
+                    fontSize: 12,
                 }
             },
             grid: {
-                left: 60,
-                // top: 100,
-                // right: 40,
-                // bottom: 120
+                left: 50,
+                right: 50,
+                bottom: 25,
+                top: 20
             },
             xAxis: [{
                 type: 'category',
-                boundaryGap: true,
+                name: '年龄/岁',
+                nameGap: 0,
+                interval: 0,
                 data: config.xAxisData,
                 nameTextStyle: {
-                    // fontSize: 56,
+                    fontSize: 12,
                     color: '#87baf8'
                 },
                 axisPointer: {
@@ -199,11 +210,10 @@
                 },
                 axisLabel: {
                     textStyle: {
-                        // fontSize: 46,
+                        fontSize: 12,
                         color: '#87baf8'
                     },
-                    rotate: 45
-                }
+                },
             }],
             yAxis: config.yAxisConfig,
             series: config.seriesData
@@ -235,26 +245,27 @@
             // 数值
             yellow: {
                 color: "#ffc72b",
-                fontSize: 20 * scale,
-                padding: [5, 4],
+                fontSize: 12 * scale,
+                padding: [15, 4],
+                height: 16,
                 align: 'center'
             },
             total: {
                 color: "#ffc72b",
-                fontSize: 40 * scale,
+                fontSize: 16 * scale,
                 align: 'center'
             },
             // 省份
             white: {
                 color: "#fff",
                 align: 'center',
-                fontSize: 14 * scale,
-                padding: [21, 0]
+                fontSize: 12 * scale,
+                padding: [12, 0]
             },
             // 比例
             blue: {
                 color: '#49dff0',
-                fontSize: 22 * scale,
+                fontSize: 12 * scale,
                 align: 'center'
             },
             hr: {
@@ -268,6 +279,7 @@
             series: [{
                 name: '客源地统计',
                 type: 'pie',
+                center: ['50%', '60%'],
                 radius: ['20%', '40%'],
                 hoverAnimation: false,
                 color: ['#c487ee', '#deb140', '#49dff0', '#034079', '#6f81da', '#00ffb4'],
@@ -280,14 +292,14 @@
                                 total += value.value*1;
                             });
                             percent = ((params.value / total) * 100).toFixed(1);
-                            return '{yellow|' + params.name + '}  {blue|'+ params.percent +'%}\n\n';
+                            return '{yellow|' + params.name + '}  {blue|'+ params.percent +'%}';
                         },
                         rich: rich
                     },
                 },
                 labelLine: {
                     normal: {
-                        length: 35 * scale,
+                        length: 8 * scale,
                         length2: 0,
                         lineStyle: {
                             color: '#0b5263'

@@ -1,132 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <!------分------割------线------>
-<head>
 
+<head>
     <meta charset="UTF-8">
     <meta name="Author" content="Bruce Zhu">
-	<meta http-equiv="pragma" content="no-cache">
+    <meta name=”renderer” content=”webkit”>
+    <meta http-equiv=”X-UA-Compatible” content=”IE=Edge,chrome=1″>
+    <meta http-equiv="pragma" content="no-cache">
     <title>LED大屏幕</title>
     <link rel="stylesheet" type="text/css" href="./css/clock.css" />
     <style type="text/css">
-	
 		html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
-		body { background-color: rgba(0, 0, 0, .95); background-size: 100% 100%; }
-		.banner { width: 100%; height: 40%; background-image: url('../img/LED6.png'); background-repeat: no-repeat; background-position: 50% 50%; background-size: cover; }
-		.time { font-size: 42px; display: inline-block; float: left; width: 75%; height: 15%; color: yellow; }
-		.time p { height: 50%; margin: 0; padding: 20px 20px 0; }
-		.time hr { width: 95%; }
-		.parking_lot { font-size: 46px; float: left; box-sizing: border-box; width: 75%; height: 25%; margin: 0; padding: 0 20px; }
-		.parking_lot > span:first-child { display: block; height: 50%; color: #0f0; }
-		.parking_lot > span:last-child { display: block; height: 50%; color: red; }
-		.parking_lot > span span:first-child { display: inline-block; width: 40%; text-align: right; }
-		.clock_mask { display: inline-block; float: right; box-sizing: border-box; width: 25%; height: 40%; padding: 20px 0; }
+		#border { position: absolute; top: 50%; left: 50%; margin: -208px 0 0 -336px; width: 672px; height: 416px; background-color: rgba(0, 0, 0, .95); background-size: 100% 100%; font-family: '楷体'; }
+		.banner { width: 450px; height: 310px; display: inline-block; float: left; background-image: url('./img/LED1.jpg'); background-repeat: no-repeat; background-position: 50% 50%; background-size: cover; }
+		.right { width: 222px; height: 310px; float: left; }
+		.clock_mask { display: inline-block; float: right; box-sizing: border-box; width: 100%; height: 40%; margin: 20px auto; }
 		.fill { height: 100%; margin: 0 auto; border-radius: 50%; background-color: rgba(0, 0, 0, .6); }
-		.greet { font-size: 64px; overflow: hidden; box-sizing: border-box; width: 100%; height: 20%; margin: 0; text-align: center; color: yellow; border: 2px dotted yellow; outline: none; }
-
+		.time { font-size: 18px; display: inline-block; width: 222px; color: yellow; }
+		.time p { text-align: center; color: #0f0; margin: 0 auto; }
+		hr { width: 75%; }
+		.parking_lot { font-size: 18px; float: left; box-sizing: border-box; width: 100%; height: 25%; margin: 0; color: #fff; }
+		.parking_lot > span { display: block; color: #fff; padding: 5px 10px; box-sizing: border-box; }
+		.parking_lot > span span:first-child { display: inline-block; width: 65%; text-align: right; }
+		.parking_lot > span span:last-child { padding: 3px 5px; background-color: red; border-radius: 5px; }
+		.greet { font-size: 64px; overflow: hidden; box-sizing: border-box; width: 632px; height: 20%; float: left; margin: 0; text-align: center; color: yellow; border: 2px dotted yellow; outline: none; box-sizing: border-box; margin: 10px 20px; }
     </style>
 </head>
 <!------分------割------线------>
 
 <body>
+    <div id="border">
+        <div class="banner"></div>
 
-	<div class="banner"></div>
+        <div class="right">
+            <div class="clock_mask">
+                <div class="fill">
+                    <div class="reference"></div>
+                    <div class="clock" id="utility-clock">
+                        <div class="centre">
+                            <div class="dynamic"></div>
+                            <div class="expand round circle-1"></div>
+                            <div class="anchor hour">
+                                <div class="element thin-hand"></div>
+                                <div class="element fat-hand"></div>
+                            </div>
+                            <div class="anchor minute">
+                                <div class="element thin-hand"></div>
+                                <div class="element fat-hand minute-hand"></div>
+                            </div>
+                            <div class="anchor second">
+                                <div class="element second-hand"></div>
+                            </div>
+                            <div class="expand round circle-2"></div>
+                            <div class="expand round circle-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="time">
+                <p class="yl"></p>
+                <p class="nl"></p>
+                <p class="week"></p>
+            </div>
+            <hr>
+            <p class="parking_lot">
+                <span><span>可用车位：</span><span class="useable">552</span></span>
+                <span><span>总车位：</span><span class="all">579</span></span>
+            </p>
+        </div>
 
-	<div class="time">
-		<p class="yl"></p>
-		<hr>
-	</div>
 
-	<div class="clock_mask">
-	    <div class="fill">
-	        <div class="reference"></div>
-	        <div class="clock" id="utility-clock">
-	            <div class="centre">
-	                <div class="dynamic"></div>
-	                <div class="expand round circle-1"></div>
-	                <div class="anchor hour">
-	                    <div class="element thin-hand"></div>
-	                    <div class="element fat-hand"></div>
-	                </div>
-	                <div class="anchor minute">
-	                    <div class="element thin-hand"></div>
-	                    <div class="element fat-hand minute-hand"></div>
-	                </div>
-	                <div class="anchor second">
-	                    <div class="element second-hand"></div>
-	                </div>
-	                <div class="expand round circle-2"></div>
-	                <div class="expand round circle-3"></div>
-	            </div>
-	        </div>
-	    </div>
+        <p class="greet" contenteditable="true">美丽仙女湖，八方宾客来。仙女湖欢迎您！</p>
     </div>
-    <p class="parking_lot">
-    	<span><span>可用车位：</span><span class="useable">552</span></span>
-    	<span><span>总车位：</span><span class="all">579</span></span>
-    </p>
-    <p class="greet" contenteditable="true">欢迎各位游客！文明旅游，从我做起！</p>
-
 </body>
-
 <script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="./js/calendar.js"></script>
 <script type="text/javascript" src="./js/clock.js"></script>
 <script type="text/javascript">
+localStorage.getItem('.greet') ? $('.greet').html(localStorage.getItem('.greet')) : null;
 
-	localStorage.getItem('.greet') ? $('.greet').html(localStorage.getItem('.greet')) : null;
-	function fontAdapt(name) {
-		var ele = $(name);
-		var reg = /\d+/ig;
-		var tempHTML = ele.html();
-		var checkEleChange = function () {
-			ele.html() !== tempHTML ? changeEle() : null;
-			tempHTML = ele.html();
-			requestAnimationFrame(checkEleChange);
-		}
-		var changeEle = function () {
-			var eleSize = ele.css("font-size").match(reg)[0];
-			var eleLen = ele.html().length;
-			var eleWidth = ele.width();
-			var eleHeight = ele.height();
-			var eleSizeWidth = eleSize * eleLen;
-			ele.css("font-size", eleWidth/(eleLen + 1));
-			eleHeight < eleWidth/(eleLen + 1) ? ele.css("font-size", eleHeight) : null; 
-			ele.css("line-height", eleHeight+"px");
-			localStorage.setItem(name, ele.html());
-		}
-		changeEle();
-		checkEleChange();
-		window.addEventListener('resize', changeEle);
-	}
-	/**
-	 *  lunar.cYear 2017
-	 *  lunar.cMonth 12
-	 *  lunar.cDay 06
-	 *  lunar.astro 星座
-	 *  lunar.lYear 农历2017
-	 *  lunar.IMonthCn 腊月
-	 *  lunar.IDayCn 初九
-	 *  lunar.gzYear 丁酉
-	 *  lunar.gzMonth 辛亥
-	 *  lunar.gzDay 丁卯
-	 *  lunar.Animal 生肖
-	 *  lunar.jieqi 二十四节气
-	 */
-	var lunar = calendar.solar2lunar();
-	var yl = lunar.cYear + '年' + lunar.cMonth + '月' + lunar.cDay + '日';
-	var nl = '农历' + lunar.IMonthCn + lunar.IDayCn;
-	var jq = lunar.jieqi;
-	$('.yl').html(yl + '&nbsp;&nbsp;&nbsp;&nbsp;' + nl);
-	$('.yl').css("line-height", $('.yl').height() + 'px');
+function fontAdapt(name) {
+    var ele = $(name);
+    var reg = /\d+/ig;
+    var tempHTML = ele.html();
+    var checkEleChange = function() {
+        ele.html() !== tempHTML ? changeEle() : null;
+        tempHTML = ele.html();
+        requestAnimationFrame(checkEleChange);
+    }
+    var changeEle = function() {
+        var eleSize = ele.css("font-size").match(reg)[0];
+        var eleLen = ele.html().length;
+        var eleWidth = ele.width();
+        var eleHeight = ele.height();
+        var eleSizeWidth = eleSize * eleLen;
+        ele.css("font-size", eleWidth / (eleLen + 1));
+        eleHeight < eleWidth / (eleLen + 1) ? ele.css("font-size", eleHeight) : null;
+        ele.css("line-height", eleHeight + "px");
+        localStorage.setItem(name, ele.html());
+    }
+    changeEle();
+    checkEleChange();
+    window.addEventListener('resize', changeEle);
+}
+/**
+ *  lunar.cYear 2017
+ *  lunar.cMonth 12
+ *  lunar.cDay 06
+ *  lunar.astro 星座
+ *  lunar.lYear 农历2017
+ *  lunar.IMonthCn 腊月
+ *  lunar.IDayCn 初九
+ *  lunar.gzYear 丁酉
+ *  lunar.gzMonth 辛亥
+ *  lunar.gzDay 丁卯
+ *  lunar.Animal 生肖
+ *  lunar.jieqi 二十四节气
+ */
+var lunar = calendar.solar2lunar();
+var yl = lunar.cYear + '年' + lunar.cMonth + '月' + lunar.cDay + '日';
+var nl = '农历' + lunar.IMonthCn + lunar.IDayCn;
+var jq = lunar.jieqi;
+$('.yl').html(yl);
+$('.nl').html(nl);
+$('.week').html("星期" + "日一二三四五六日".charAt(new Date().getDay()));
 
-	$('.fill').width($('.fill').height());
-	window.addEventListener('resize', function () {
-		$('.fill').width($('.fill').height());
-	})
+$('.fill').width($('.fill').height());
+window.addEventListener('resize', function() {
+    $('.fill').width($('.fill').height());
+})
 
-	fontAdapt('.greet');
-
+fontAdapt('.greet');
 </script>
 <!------分------割------线------>
+
 </html>
