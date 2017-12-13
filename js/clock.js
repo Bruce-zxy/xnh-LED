@@ -60,7 +60,6 @@ function utilityClock(container) {
 
 function autoResize(element, nativeSize) {
     var update = function() {
-        console.log($(element).parent().width(), $(element).parent().height(), Math.min($(element).parent().width(), $(element).parent().height()));
         var scale = Math.min($(element).parent().width(), $(element).parent().height()) / nativeSize;
         element.style.transform = element.style.webkitTransform = 'scale(' + scale.toFixed(3) + ')'
     }
