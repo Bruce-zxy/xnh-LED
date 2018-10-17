@@ -10,10 +10,12 @@
     <meta http-equiv="pragma" content="no-cache">
     <title>LED大屏幕</title>
     <link rel="stylesheet" type="text/css" href="./css/clock.css" />
+    <link rel="stylesheet" type="text/css" href="./css/video-js.min.css" />
     <style type="text/css">
 		html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
-		#border { position: absolute; top: 50%; left: 50%; margin: -208px 0 0 -336px; width: 672px; height: 416px; background-color: rgba(0, 0, 0, .95); background-size: 100% 100%; font-family: '楷体'; }
-		.banner { width: 450px; height: 310px; display: inline-block; float: left; background-image: url('./img/LED1.jpg'); background-repeat: no-repeat; background-position: 50% 50%; background-size: cover; }
+		#border { position: absolute; top: 50%; left: 50%; margin: -208px 0 0 -336px; width: 672px; height: 416px; background-color: #000; background-size: 100% 100%; font-family: '楷体'; }
+        .banner { width: 430px; height: 310px; margin-left: 20px; display: inline-block; float: left; }
+        #my-video { width: 100%; height: 100%; }
 		.right { width: 222px; height: 310px; float: left; }
 		.clock_mask { display: inline-block; float: right; box-sizing: border-box; width: 100%; height: 40%; margin: 20px auto; }
 		.fill { height: 100%; margin: 0 auto; border-radius: 50%; background-color: rgba(0, 0, 0, .6); }
@@ -31,7 +33,14 @@
 
 <body>
     <div id="border">
-        <div class="banner"></div>
+        <div class="banner">
+            <video id="my-video" class="video-js" autoplay loop preload="auto" width="960" height="400" data-setup="{}">
+                <source src="./video/video.mp4" type="video/mp4">
+                <source src="./video/video.webm" type="video/webm">
+                <source src="./video/video.ogv" type="video/ogg">
+                <p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a> </p>
+            </video>
+        </div>
 
         <div class="right">
             <div class="clock_mask">
@@ -75,9 +84,10 @@
     </div>
 </body>
 <script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
-<script src="./js/crypto-js-3.1.9.min.js"></script>
+<script type="text/javascript" src="./js/crypto-js-3.1.9.min.js"></script>
 <script type="text/javascript" src="./js/calendar.js"></script>
 <script type="text/javascript" src="./js/clock.js"></script>
+<script type="text/javascript" src="./js/video.min.js"></script> 
 <script type="text/javascript">
 
     localStorage.getItem('.greet') ? $('.greet').html(localStorage.getItem('.greet')) : null;
@@ -135,6 +145,7 @@
 
     fontAdapt('.greet');
 
+    // 海康接口
     var uri = "/openapi/service/pms/status/getPlotStatus";
     var appkey = "c3f7218c";
     var appsecret = "0d497fa0d817466ba012a36fe61dde33";
@@ -149,8 +160,6 @@
 
     var token = CryptoJS.MD5(uri + JSON.stringify(body) + appsecret).toString();
 
-    console.log(token);
-
     function fetchParkingData() {
         $.ajax({
             type: "GET", 
@@ -164,7 +173,7 @@
             success: function (res, stateText, stateBody) {
                 res = JSON.parse(res);
                 if (!!res.errorCode) {
-                    alert(res.errorMessage);
+                    console.error(res.errorMessage);
                 } else {
                     list = res.data.list;
                     $(".parking_lot .useable").html(list.filter(function(val){ return !val.status}).length);
@@ -175,6 +184,13 @@
     }
     fetchParkingData();
     setInterval(fetchParkingData, 60000);
+
+    // Video
+    var myPlayer = videojs('my-video');
+    videojs("my-video").ready(function(){
+        var myPlayer = this;
+        myPlayer.play();
+    });
 </script>
 <!------分------割------线------>
 
