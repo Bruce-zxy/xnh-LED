@@ -5,8 +5,8 @@
 
     <meta charset="UTF-8">
     <meta name="Author" content="Bruce Zhu">
-    <meta name=”renderer” content=”webkit”>
-    <meta http-equiv=”X-UA-Compatible” content=”IE=Edge,chrome=1″ >
+    <meta name="renderer"  content="ie-comp">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 	<meta http-equiv="pragma" content="no-cache">
     <title>LED大屏幕</title>
     <style type="text/css">
@@ -29,160 +29,90 @@
             background-position: 60% 50%;
             background-repeat: no-repeat;
         }
-        #border img {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-        }
-        .top {
-            width: 100%;
-            height: 75px;
-            margin-top: 45px;
-            float: left;
-        }
-
-
-        #biaoyan {
-            float: left;
-            display: -webkit-inline-flex; /* Safari */ 
-            display: inline-flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            width: 70%;
-            color: #fff;
-        }
-        #biaoyan>span {
-            width: 100%;
+        #border .video-container {
             display: inline-block;
-        }
-        #biaoyan>span p {
-            height: 20px;
-            line-height: 20px;
-            font-size: 16px;
-            margin: 5px 0;
-            text-align: center;
-        }
-        #biaoyan>span p span:first-child {
-            float: left;
-            display: inline-block;
-            width: 40%;
-            padding: 2px 0;
-            text-align: right;
-        }
-        #biaoyan>span p span:last-child {
-            float: left;
-            display: inline-block;
-            width: 60%;
-            text-align: left;
-            padding: 2px 10px;
-            box-sizing: border-box;
-            border-radius: 5px;
-            background: linear-gradient(to right, rgba(40, 66, 143, 1), rgba(40, 66, 143, .1) 70%, rgba(40, 66, 143, 0));
-
-        }
-
-
-        #info {
-            float: left;
-            display: -webkit-inline-flex; /* Safari */ 
-            display: inline-flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            width: 30%;
-            height: 100%;
-            padding-right: 10px;
-            box-sizing: border-box;
-            color: yellow;
-        }
-        #tousu {
-            font-size: 12px;
-            margin: 5px auto;
-        }
-        #slogan {
-            font-size: 16px;
+            width: 500px;
+            height: 300px;
             overflow: hidden;
-            margin: 5px auto;
-            box-sizing: border-box;
-            width: 100%;
-            margin: 0;
-            height: 32px;
+            float: left;
+        }
+        #border #divPlugin {
+            margin: -1px 0 0 -1px;
+        }
+        #border .forbid {
+            width: 172px;
+            height: 300px;
+            display: inline-block;
+        }
+        #border .forbid p {
+            width: 120px;
+            height: 25px;
+            line-height: 25px;
+            margin: 30px auto 15px;
+            background-color: #FF0;
+            border: 2px solid #F00;
+            outline: 2px solid #FF0;
+            box-shadow: 0 0 0 2px #FF0;
+            border-radius: 4px;
             text-align: center;
-            color: yellow;
-            outline: none;
+            color: #F00;
+            font-weight: bold;
+        }
+        #border .forbid img {
+            width: 70px;
+            margin: 15px 8px;
+            float: left;
         }
     </style>
 </head>
 <!------分------割------线------>
 
-<body>
-
+<body onbeforeunload="CloseIt()" onload="viewload('172.16.24.95')">
     <div id="border">
-        <div class="top">
-            <div id="biaoyan">
-                <span>
-                    <p>
-                        <span contenteditable="true">龙凤苑表演时间：</span>
-                        <span contenteditable="true">09:00 10:20 11:40 14:00 15:30</span>
-                    </p>
-                </span>
-                <span>
-                    <p>
-                        <span contenteditable="true">上刀山下火海表演时间：</span>
-                        <span contenteditable="true">09:50 11:10 12:40 14:50 16:20</span>
-                    </p>
-                </span>
-                <span>
-                    <p>
-                        <span contenteditable="true">七仙女表演时间：</span>
-                        <span contenteditable="true">10:40 12:00 13:40 15:10 16:40</span>
-                    </p>
-                </span>
-            </div>
-            <div id="info">
-                <p id="slogan" contenteditable="true">文明旅游，从我做起</p>
-                <p id="tousu">投诉电话：400-9158-099</p>
-            </div>
+        <div class="video-container">
+            <div id="divPlugin" class="plugin"></div>
         </div>
-        <img src="./img/LED4.png" alt="bg">
-
+        <div class="forbid">
+            <p>游览注意事项</p>
+            <img src="./危险品标识/img1.png" alt="危险品标识">
+            <img src="./危险品标识/img2.png" alt="危险品标识">
+            <img src="./危险品标识/img3.png" alt="危险品标识">
+            <img src="./危险品标识/img4.png" alt="危险品标识">
+        </div>
     </div>
-    
+    <div id="opinfo"  class="opinfo"></div>
+    <p>请选择监控点：<select name="test" id="test"></select></p>
 </body>
 
+<script type="text/javascript">
+    var userAgent = window.navigator.userAgent;
+    //IE浏览器
+    if (userAgent.indexOf('NET') === -1 && userAgent.indexOf("rv") === -1) {
+        alert('请使用IE浏览器访问！');
+    }
+
+    // 获取监控外框的宽和高去设置监控的宽高
+    var videoContainer = document.getElementsByClassName('video-container')[0];
+    var deviceViewWidth = (getComputedStyle(videoContainer, null).width || videoContainer.currentStyle.width).slice(0, -2)*1 + 2;
+    var deviceViewHeight = (getComputedStyle(videoContainer, null).height || videoContainer.currentStyle.height).slice(0, -2)*1 + 2;
+</script>
 <script type="text/javascript" src="./js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="./js/webVideoCtrl.js"></script>
+<script type="text/javascript" src="./js/simple.js"></script>
+<script type="text/javascript" src="./js/ips.js"></script>
 <script type="text/javascript">
 
-    localStorage.getItem('#slogan') ? $('#slogan').html(localStorage.getItem('#slogan')) : null;
-    function fontAdapt(name) {
-        var ele = $(name);
-        var reg = /\d+/ig;
-        var tempHTML = ele.html();
-        var checkEleChange = function () {
-            ele.html() !== tempHTML ? changeEle() : null;
-            tempHTML = ele.html();
-            requestAnimationFrame(checkEleChange);
-        }
-        var changeEle = function () {
-            var eleSize = ele.css("font-size").match(reg)[0];
-            var eleLen = ele.html().length;
-            var eleWidth = ele.width();
-            var eleHeight = ele.height();
-            var eleSizeWidth = eleSize * eleLen;
-            ele.css("font-size", eleWidth/(eleLen + 1));                
-            eleHeight < eleWidth/(eleLen + 1) ? ele.css("font-size", eleHeight) : null;    
-            ele.css("line-height", eleHeight+"px");
-            localStorage.setItem(name, ele.html());
-        }
-        changeEle();
-        checkEleChange();
-        window.addEventListener('resize', changeEle);
+    var select = document.getElementById('test');
+    select.onchange = function (e) {
+        CloseIt();
+        viewload(e.target.value);
     }
-    fontAdapt('#slogan');
+    IP_Array.forEach(function (item) {
+        var option = document.createElement('option');
+        option.setAttribute('value', item.IP);
+        option.innerHTML = item['通道名称'];
+        select.appendChild(option);
+    })
 
 </script>
 <!------分------割------线------>
