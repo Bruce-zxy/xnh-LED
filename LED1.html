@@ -10,11 +10,10 @@
     <meta http-equiv="pragma" content="no-cache">
     <title>LED大屏幕</title>
     <link rel="stylesheet" type="text/css" href="./css/clock.css" />
-    <link rel="stylesheet" type="text/css" href="./css/video-js.min.css" />
     <style type="text/css">
 		html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
 		#border { position: absolute; top: 50%; left: 50%; margin: -208px 0 0 -336px; width: 672px; height: 416px; background-color: #000; background-size: 100% 100%; font-family: '楷体'; }
-        .banner { width: 430px; height: 310px; margin-left: 20px; display: inline-block; float: left; }
+        .banner { width: 430px; height: 310px; margin-left: 20px; display: inline-block; float: left; position: relative; }
         #my-video { width: 100%; height: 100%; }
 		.right { width: 222px; height: 310px; float: left; }
 		.clock_mask { display: inline-block; float: right; box-sizing: border-box; width: 100%; height: 40%; margin: 20px auto; }
@@ -27,6 +26,53 @@
 		.parking_lot > span span:first-child { display: inline-block; width: 65%; text-align: right; }
 		.parking_lot > span span:last-child { padding: 3px 5px; background-color: red; border-radius: 5px; }
 		.greet { font-size: 64px; overflow: hidden; box-sizing: border-box; width: 632px; height: 20%; float: left; margin: 0; text-align: center; color: yellow; border: 2px dotted yellow; outline: none; box-sizing: border-box; margin: 10px 20px; }
+        .img-left {
+            position: absolute;
+            top: 5px;
+            z-index: 999;
+            animation: left-fairy 2s ease-in-out infinite;
+        }
+        .img-right {
+            position: absolute;
+            z-index: 999;
+            top: 15px;
+            left: 350px;
+            animation: right-fairy 2s ease-in-out infinite;
+        }
+        .img-flag {
+            position: absolute;
+            left: 90px;
+            z-index: 99;
+        }
+        .img-bg {
+            position: absolute;
+            left: 50px;
+            top: 70px;
+            z-index: 9;
+            width: 340px;
+        }
+        @keyframes left-fairy {
+            0% {
+                top: 5px;
+            }
+            50% {
+                top: 15px;
+            }
+            100% {
+                top: 5px;
+            }
+        }
+        @keyframes right-fairy {
+            0% {
+                top: 15px;
+            }
+            50% {
+                top: 5px;
+            }
+            100% {
+                top: 15px;
+            }
+        }
     </style>
 </head>
 <!------分------割------线------>
@@ -34,10 +80,10 @@
 <body>
     <div id="border">
         <div class="banner">
-            <img src="仙女横幅/左.png" alt="">
-            <img src="仙女横幅/右.png" alt="">
-            <img src="仙女横幅/旗帜.png" alt="">
-            <img src="仙女横幅/背景.png" alt="">
+            <img class="img-left" src="仙女横幅/左.png" alt="左">
+            <img class="img-right" src="仙女横幅/右.png" alt="右">
+            <img class="img-flag" src="仙女横幅/旗帜.png" alt="旗帜">
+            <img class="img-bg" src="仙女横幅/背景.png" alt="背景">
         </div>
 
         <div class="right">
@@ -85,7 +131,6 @@
 <script type="text/javascript" src="./js/crypto-js-3.1.9.min.js"></script>
 <script type="text/javascript" src="./js/calendar.js"></script>
 <script type="text/javascript" src="./js/clock.js"></script>
-<script type="text/javascript" src="./js/video.min.js"></script> 
 <script type="text/javascript">
 
     localStorage.getItem('.greet') ? $('.greet').html(localStorage.getItem('.greet')) : null;
@@ -145,15 +190,15 @@
 
     // 海康接口
     var uri = "/openapi/service/pms/status/getPlotStatus";
-    var appkey = "c3f7218c";
-    var appsecret = "0d497fa0d817466ba012a36fe61dde33";
+    var appkey = "4863F199";
+    var appsecret = "92C2FB1381E34f7398CB97439927FC4E";
     var time = new Date().getTime().toString();
     var body = {
         appkey: appkey,
         time: time,
         pageNo: 1,
         pageSize: 1000,
-        opUserUuid: "05fb9e8cdfb511e78e7cc75bf57dc840"
+        opUserUuid: "f31e737cd68d11e8bd7397ad7822bcb8"
     };
 
     var token = CryptoJS.MD5(uri + JSON.stringify(body) + appsecret).toString();
@@ -183,12 +228,6 @@
     fetchParkingData();
     setInterval(fetchParkingData, 60000);
 
-    // Video
-    var myPlayer = videojs('my-video');
-    videojs("my-video").ready(function(){
-        var myPlayer = this;
-        myPlayer.play();
-    });
 </script>
 <!------分------割------线------>
 
