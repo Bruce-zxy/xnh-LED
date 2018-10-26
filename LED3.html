@@ -63,6 +63,9 @@
             margin: 15px 8px;
             float: left;
         }
+        #border .welcome {
+            color: #FFF;
+        }
     </style>
 </head>
 <!------分------割------线------>
@@ -79,6 +82,7 @@
             <img src="./危险品标识/img3.png" alt="危险品标识">
             <img src="./危险品标识/img4.png" alt="危险品标识">
         </div>
+        <div class="welcome">仙女湖风景名胜区欢迎您！</div>
     </div>
     <div id="opinfo"  class="opinfo"></div>
     <p>请选择监控点：<select name="test" id="test"></select></p>
@@ -88,7 +92,7 @@
     var userAgent = window.navigator.userAgent;
     //IE浏览器
     if (userAgent.indexOf('NET') === -1 && userAgent.indexOf("rv") === -1) {
-        alert('请使用IE浏览器访问！');
+        alert('请使用360浏览器或者IE浏览器访问！');
     }
 
     // 获取监控外框的宽和高去设置监控的宽高
